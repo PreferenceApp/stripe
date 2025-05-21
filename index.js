@@ -53,6 +53,7 @@ export default async (context) => {
     ];
     
     try {
+      log(req.body);
       return await stripeClient.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: lineItems[req.body.item],
