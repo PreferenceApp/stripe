@@ -129,7 +129,7 @@ export default async (context) => {
   
 if (req.method === 'POST' && req.path === '/webhook') {
 
-    log(req);
+    log(JSON.stringify(req));
     /*
     const event = validateStripeWebhook(req);
 
