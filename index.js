@@ -1,4 +1,5 @@
 import stripe from 'stripe';
+import { Client, Users } from 'node-appwrite';
 
 export default async (context) => {
   const { req, res, log, error } = context;
@@ -95,8 +96,9 @@ export default async (context) => {
 
 
   /* Start of Webhook */
-const validateStripeWebhook = (context, req) => {
-    try {
+function validateStripeWebhook(context, req)
+  {
+  try {
       const event = stripeClient.webhooks.constructEvent(
         req.bodyBinary,
         req.headers['stripe-signature'],
@@ -113,10 +115,10 @@ const validateStripeWebhook = (context, req) => {
 
   const addPaidLabelToUser = async (userId, apiKey) => {
     const client = new Client();
-    client
-      .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
-      .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
-      .setKey(apiKey);
+      client
+        .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
+        .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
+        .setKey(apiKey);
 
     const users = new Users(client);
     const user = await users.get(userId);
@@ -154,7 +156,7 @@ if (req.method === 'POST' && req.path === '/webhook') {
         error('Failed to update user labels:', err);
         return res.json({ success: false }, 500);
       }
-    }*/
+    }
 
     return res.json({ success: true }); // Ignore other event types
   }
