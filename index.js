@@ -97,11 +97,12 @@ export default async (context) => {
   /* Start of Webhook */
 const validateStripeWebhook = (context, req) => {
     try {
-      const event = this.client.webhooks.constructEvent(
+      const event = stripeClient.webhooks.constructEvent(
         req.bodyBinary,
         req.headers['stripe-signature'],
         process.env.STRIPE_WEBHOOK_SECRET
       );
+
       return (event);
     } catch (err) {
       context.error(err);
