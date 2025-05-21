@@ -128,7 +128,11 @@ export default async (context) => {
 
   
 if (req.method === 'POST' && req.path === '/webhook') {
+
+    log(req);
+    /*
     const event = validateStripeWebhook(req);
+
     if (!event) {
       return res.json({ success: false }, 401);
     }
@@ -149,7 +153,7 @@ if (req.method === 'POST' && req.path === '/webhook') {
         error('Failed to update user labels:', err);
         return res.json({ success: false }, 500);
       }
-    }
+    }*/
 
     return res.json({ success: true }); // Ignore other event types
   }
