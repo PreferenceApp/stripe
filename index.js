@@ -95,7 +95,7 @@ export default async (context) => {
 
 
   /* Start of Webhook */
- const validateWebhook(context, req) {
+const validateStripeWebhook = (context, req) => {
     try {
       const event = this.client.webhooks.constructEvent(
         req.bodyBinary,
