@@ -3,24 +3,59 @@ import stripe from 'stripe';
 export default async (context) => {
   const { req, res, log, error } = context;
 
+  
+  /* Start of create stripe checkout session*/
   const stripeClient = stripe(process.env.STRIPE_SECRET_KEY);
 
   const createCheckoutSession = async (userId, successUrl, failureUrl) => {
-    const lineItem = {
-      price_data: {
-        unit_amount: 1000, // $10.00
-        currency: 'usd',
-        product_data: {
-          name: 'Product',
-        },
-      },
-      quantity: 1,
-    };
 
+     const lineItems = [
+      {
+        price_data: {
+          unit_amount: 1000, // $10.00
+          currency: 'usd',
+          product_data: {
+            name: 'Basic T-Shirt',
+          },
+        },
+        quantity: 1,
+      },
+      {
+        price_data: {
+          unit_amount: 2000, // $20.00
+          currency: 'usd',
+          product_data: {
+            name: 'Premium Hoodie',
+          },
+        },
+        quantity: 1,
+      },
+      {
+        price_data: {
+          unit_amount: 3000, // $30.00
+          currency: 'usd',
+          product_data: {
+            name: 'Sneakers',
+          },
+        },
+        quantity: 1,
+      },
+      {
+        price_data: {
+          unit_amount: 4000, // $5.00
+          currency: 'usd',
+          product_data: {
+            name: 'Stickers Pack',
+          },
+        },
+        quantity: 1,
+      }
+    ];
+    
     try {
       return await stripeClient.checkout.sessions.create({
         payment_method_types: ['card'],
-        line_items: [lineItem],
+        line_items: lineItems[req.body.item],
         success_url: successUrl,
         cancel_url: failureUrl,
         client_reference_id: userId,
@@ -43,7 +78,7 @@ export default async (context) => {
       error('Missing x-appwrite-user-id header.');
       return res.json({ error: 'Missing user ID' }, 400);
     }
-
+    
     const session = await createCheckoutSession(userId, successUrl, failureUrl);
     if (!session || !session.url) {
       error('Failed to create Stripe session.');
@@ -54,12 +89,44 @@ export default async (context) => {
     return res.json({ url: session.url }, 200);
   }
 
-  // === Fallback ===
-  return res.text('Not Found', 404);
-};
+  /* End of stripe checkout session */
 
-  // === Handle /webhook ===
- /* if (req.method === 'POST' && req.path === '/webhook') {
+
+
+  /* Start of Webhook */
+
+  const validateStripeWebhook = (req) => {
+    try {
+      return stripeClient.webhooks.constructEvent(
+        req.bodyBinary,
+        req.headers['stripe-signature'],
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err) {
+      error('Invalid webhook signature:', err);
+      return null;
+    }
+  };
+
+  const addPaidLabelToUser = async (userId, apiKey) => {
+    const client = new Client();
+    client
+      .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
+      .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
+      .setKey(apiKey);
+
+    const users = new Users(client);
+    const user = await users.get(userId);
+
+    const updatedLabels = new Set(user.labels ?? []);
+    updatedLabels.add('paid');
+
+    await users.updateLabels(userId, [...updatedLabels]);
+    log(`Added "paid" label to user ${userId}`);
+  };
+
+  
+if (req.method === 'POST' && req.path === '/webhook') {
     const event = validateStripeWebhook(req);
     if (!event) {
       return res.json({ success: false }, 401);
@@ -85,5 +152,10 @@ export default async (context) => {
 
     return res.json({ success: true }); // Ignore other event types
   }
-*/
 
+  /* End of Webhook */
+
+  
+  // === Fallback ===
+  return res.text('Not Found', 404);
+};
