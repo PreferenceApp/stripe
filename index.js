@@ -95,20 +95,20 @@ export default async (context) => {
 
 
   /* Start of Webhook */
-
-  
-  const validateStripeWebhook = (context, req) => {
+ const validateWebhook(context, req) {
     try {
-      return stripeClient.webhooks.constructEvent(
+      const event = this.client.webhooks.constructEvent(
         req.bodyBinary,
         req.headers['stripe-signature'],
         process.env.STRIPE_WEBHOOK_SECRET
       );
+      return (event);
     } catch (err) {
-      error('Invalid webhook signature:', err);
+      context.error(err);
       return null;
     }
-  };
+  }
+
 
   const addPaidLabelToUser = async (userId, apiKey) => {
     const client = new Client();
