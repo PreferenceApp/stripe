@@ -96,7 +96,8 @@ export default async (context) => {
 
   /* Start of Webhook */
 
-  const validateStripeWebhook = (req) => {
+  
+  const validateStripeWebhook = (context, req) => {
     try {
       return stripeClient.webhooks.constructEvent(
         req.bodyBinary,
@@ -129,9 +130,8 @@ export default async (context) => {
   
 if (req.method === 'POST' && req.path === '/webhook') {
 
-    log(JSON.stringify(req));
-    /*
-    const event = validateStripeWebhook(req);
+    
+    const event = validateStripeWebhook(context, req);
 
     if (!event) {
       return res.json({ success: false }, 401);
