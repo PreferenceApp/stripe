@@ -13,7 +13,7 @@ export default async (context) => {
      const lineItems = [
       {
         price_data: {
-          unit_amount: 1000, // $10.00
+          unit_amount: 100, // $1.00
           currency: 'usd',
           product_data: {
             name: 'Basic T-Shirt',
@@ -23,7 +23,7 @@ export default async (context) => {
       },
       {
         price_data: {
-          unit_amount: 2000, // $20.00
+          unit_amount: 200, // $2.00
           currency: 'usd',
           product_data: {
             name: 'Premium Hoodie',
@@ -33,7 +33,7 @@ export default async (context) => {
       },
       {
         price_data: {
-          unit_amount: 3000, // $30.00
+          unit_amount: 300, // $3.00
           currency: 'usd',
           product_data: {
             name: 'Sneakers',
@@ -43,7 +43,7 @@ export default async (context) => {
       },
       {
         price_data: {
-          unit_amount: 4000, // $5.00
+          unit_amount: 400, // $4.00
           currency: 'usd',
           product_data: {
             name: 'Stickers Pack',
@@ -61,7 +61,10 @@ export default async (context) => {
         success_url: successUrl,
         cancel_url: failureUrl,
         client_reference_id: userId,
-        metadata: { userId },
+        metadata: { 
+          userId: userId,
+          item: body.item
+        },
         mode: 'payment',
       });
     } catch (err) {
