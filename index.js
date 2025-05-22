@@ -13,40 +13,40 @@ export default async (context) => {
      const lineItems = [
       {
         price_data: {
-          unit_amount: 100, // $1.00
+          unit_amount: 500, // $5.00
           currency: 'usd',
           product_data: {
-            name: 'Basic T-Shirt',
+            name: '1 Week',
           },
         },
         quantity: 1,
       },
       {
         price_data: {
-          unit_amount: 200, // $2.00
+          unit_amount: 1500, // $15.00
           currency: 'usd',
           product_data: {
-            name: 'Premium Hoodie',
+            name: '1 Month',
           },
         },
         quantity: 1,
       },
       {
         price_data: {
-          unit_amount: 300, // $3.00
+          unit_amount: 4500, // $45.00
           currency: 'usd',
           product_data: {
-            name: 'Sneakers',
+            name: '6 Months',
           },
         },
         quantity: 1,
       },
       {
         price_data: {
-          unit_amount: 400, // $4.00
+          unit_amount: 9000, // $90.00
           currency: 'usd',
           product_data: {
-            name: 'Stickers Pack',
+            name: '1 Year',
           },
         },
         quantity: 1,
