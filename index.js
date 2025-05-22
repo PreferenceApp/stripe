@@ -33,7 +33,7 @@ export default async (context) => {
       },
       {
         price_data: {
-          unit_amount: 4500, // $45.00
+          unit_amount: 6000, // $60.00
           currency: 'usd',
           product_data: {
             name: '6 Months',
