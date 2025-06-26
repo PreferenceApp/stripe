@@ -73,7 +73,7 @@ export default async (context) => {
       const body = JSON.parse(req.body);
       const session = await stripeClient.checkout.sessions.create({
         payment_method_types: ['card'],
-        line_items: [lineItems[body.item]],
+        line_items: [lineItems[body.index]],
         success_url: successUrl,
         cancel_url: failureUrl,
         client_reference_id: userId,
