@@ -23,7 +23,7 @@ export default async (context) => {
       },
       {
         price_data: {
-          unit_amount: 1500, // $15.00
+          unit_amount: 1000, // $10.00
           currency: 'usd',
           product_data: {
             name: '1 Month',
@@ -33,7 +33,17 @@ export default async (context) => {
       },
       {
         price_data: {
-          unit_amount: 6000, // $60.00
+          unit_amount: 2500, // $25.00
+          currency: 'usd',
+          product_data: {
+            name: '3 Months',
+          },
+        },
+        quantity: 1,
+      },
+      {
+        price_data: {
+          unit_amount: 4500, // $45.00
           currency: 'usd',
           product_data: {
             name: '6 Months',
@@ -43,7 +53,7 @@ export default async (context) => {
       },
       {
         price_data: {
-          unit_amount: 9000, // $90.00
+          unit_amount: 8500, // $85.00
           currency: 'usd',
           product_data: {
             name: '1 Year',
