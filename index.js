@@ -79,7 +79,7 @@ export default async (context) => {
         client_reference_id: userId,
         metadata: { 
           userId: userId,
-          item: body.item.toString()
+          item: body.index.toString()
         },
         mode: 'payment',
       });
